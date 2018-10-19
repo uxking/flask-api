@@ -11,6 +11,7 @@ mongo = PyMongo(app)
 
 names_model = api.model('NamesModel', {'name' : fields.String})
 
+
 @api.route('/hello')
 class HelloWorld(Resource):
     def get(self):
@@ -33,11 +34,13 @@ class GetNames(Resource):
         names = mongo.db.names
         output = []
 
-        if names is not None:
+        if names.count() != 0:
             for n in names.find({}):
                 print (n)
                 output.append({'name': n['name']})
             return output
+
+        return {'status': "No names available."}
         
 
 
